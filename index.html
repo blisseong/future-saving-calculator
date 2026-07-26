@@ -1382,6 +1382,9 @@ select:focus{
 "url":"https://여기에_계산기주소"
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </head>
 
 <body>
@@ -2418,7 +2421,6 @@ function createGrowthChart(){
 
             data:{
                 labels:[],
-
                 datasets:[{
                     label:"예상 자산",
                     data:[],
@@ -2431,79 +2433,53 @@ function createGrowthChart(){
                 }]
             },
 
-options:{
+            options:{
 
-    responsive:true,
+                responsive:true,
+                maintainAspectRatio:false,
 
-    maintainAspectRatio:false,
+                animation:{
+                    duration:900,
+                    easing:"easeOutQuart"
+                },
 
-    animation:{
+                interaction:{
+                    intersect:false,
+                    mode:"index"
+                },
 
-        duration:900,
+                plugins:{
+                    legend:{
+                        display:false
+                    },
+                    tooltip:{
+                        callbacks:{
+                            label:function(context){
+                                return context.raw.toLocaleString()+"원";
+                            }
+                        }
+                    }
+                },
 
-        easing:"easeOutQuart"
-
-    },
-
-    interaction:{
-
-        intersect:false,
-
-        mode:"index"
-
-    },
-
-    plugins:{
-
-        legend:{
-
-            display:false
-
-        },
-
-        tooltip:{
-
-            callbacks:{
-
-                label:function(context){
-
-                    return context.raw.toLocaleString()+"원";
-
+                scales:{
+                    x:{
+                        grid:{
+                            display:false
+                        }
+                    },
+                    y:{
+                        ticks:{
+                            callback:function(value){
+                                return value.toLocaleString()+"원";
+                            }
+                        }
+                    }
                 }
 
             }
 
         }
-
-    },
-
-    scales:{
-
-        x:{
-
-            grid:{
-
-                display:false
-
-            }
-
-        },
-
-        y:{
-
-            ticks:{
-
-                callback:function(value){
-
-                    return value.toLocaleString()+"원";
-
-                }
-
-            }
-
-        }
-
-    }
+    );
 
 }
 /* =====================================================
@@ -3055,19 +3031,14 @@ function bindEvents(){
     );
 
 els.calculateBtn.addEventListener(
-
     "click",
-
     ()=>{
+        runCalculator();
 
         els.resultSection.scrollIntoView({
-
             behavior:"smooth"
-
         });
-
     }
-
 );
 els.mobileCalculateBtn.addEventListener(
 
@@ -3331,8 +3302,7 @@ function downloadResult(){
 
 }
 init();
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </script>
 
 </body>
